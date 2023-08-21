@@ -1,0 +1,24 @@
+/* Add this CSS to your existing "styles.css" file or create a new "appointments.css" file and link it to your "appointments.html" page */
+
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.appointment-table th {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.appointment-table th, .appointment-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* Style specific columns if needed */
+
+/* Add more styles for other columns as needed */
