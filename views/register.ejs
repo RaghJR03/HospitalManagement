@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Hospital Management</title>
+
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+</head>
+<body style="background-color: aliceblue;">
+
+  <header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          
+            <li><a href="/login">Login</a></li>
+            <li><a href="/appointments">Appointments</a></li>
+        </ul>
+    </nav>
+</header>
+<!-- ... (previous code) ... -->
+<% if (locals.log) { %>
+<% if (log === '0') { %>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Registration Failed',
+                text: 'Check Your Details and Please try again.',
+            });
+        });
+    </script>
+    <% } %>
+    <% } %>
+    <section class="register">
+        <h1 >Register</h1>
+        <p style="font-size: large;">Register to access our services and appointments.</p>
+        
+        <form method="post" action="/register">
+          <h1>
+            Register Form
+          </h1>
+           
+        </br>
+            <label for="name">Name:</label>
+    </br>
+            <input type="text" id="name" name="sname" required>
+        </br>
+            <label for="email">Email:</label>
+        </br>
+            <input type="email" id="email" name="email" required>
+        </br>  
+        <label for="email">Enter Patient-id:</label>
+    </br>
+        <input type="number" id="pid" name="pid" required>
+    </br>
+            <label for="password">Password:</label>
+
+            <input type="password" id="password" name="password" required>
+        </br>
+        <label for="password">confirm password:</label>
+
+        <input type="password" id="password" name="cnfpassword" required>
+            <button type="submit">Register</button>
+        </br>
+        </form>
+        
+
+    </section>
+
+    <!-- Add more registration fields and information as needed -->
+
+    <footer>
+        <p>&copy; 2023 Hospital Management</p>
+    </footer>
+    
+    
+
+  
+   
+    
+</body>
+</html>

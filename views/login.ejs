@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Hospital Management</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body style="background-color: aliceblue;">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/register">Register</a></li>
+                
+                <li><a href="/appointments">Appointments</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="login">
+        <h1>Login</h1>
+        <p style="font-size: large;">Log in as a Doctor or a Patient:</p>
+        
+        <form method="post" action="/login">
+            <h1>
+            Patient Login Form
+            </h1>
+        </br>
+            <label for="email">Name:</label>
+        </br>
+
+        <input type="text" id="email" name="sname" required>
+    </br>
+
+    <label for="email">Enter Patient id:</label>
+    </br>
+
+    <input type="number" id="pid" name="pid" required>
+</br>
+    <label for="email">Email:</label>
+</br>
+            <input type="email" id="email" name="email" required>
+            
+            
+        </br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+   
+
+    <footer>
+        <p>&copy; 2023 Hospital Management</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html

@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hospital Management</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+</head>
+<body style="background-color: aliceblue;">
+    <% if (locals.log) { %>
+        <% if (log==='1') { %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registration Sucessfull',
+                    text: 'Welcome to MED-X',
+                });
+            });
+        </script>
+        <% } %>
+        <% } %>
+    <header>
+        <nav>
+            
+            <ul>
+                <% if (locals.sname) { %>
+                    <li>Welcome <%= sname %></li>
+                <% } %>
+               
+                
+                <% if (locals.pid) { %>
+                    <li><a href="/logout" id="logout-link">logout</a></li>
+                <% } else { %>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <% } %>
+                    <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/appointments">Appointments</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <img src="https://getwallpapers.com/wallpaper/full/5/a/b/693674-top-hospital-wallpapers-1920x1080-full-hd.jpg" alt="Snow" style="width:100%;">
+        <div class="centered">Continental Hospital</div>
+      
+      </div>
+    <section class="about">
+        
+        <h1 style="text-align: center;">About Us</h1>
+        <p style="padding: 2px;line-height: 45px;font-size:large;">We are a leading hospital committed to providing the highest quality healthcare services to our patients.</p>
+        <h1 style="text-align: center;">Our Services</h1>
+        <h1> Cardiology </h1>
+        <p style="padding: 2px;line-height: 45px;font-size:large;">
+            Our hospital is regarded as one of the best heart hospitals in India, performing a multitude of treatments and procedures in cardiology and cardiothoracic surgery. The scorecard shows an unmatched record of over 1,52,000 cardiac and cardiothoracic surgeries.
+            
+            We have vast experience in the most complicated coronary artery bypass surgery, surgery for all types of valvular heart diseases, paediatric heart surgery, adult and paediatric heart transplantation with success rates comparable to international standards.</p>
+        <h1> Orthopedics </h1>
+        <p style="padding: 2px;line-height: 45px;font-size:large;"> 
+            Orthopaedics is regarded as one of the best & top orthopaedics hospitals in India with a legacy of innovation and excellence. The Institutes are at the forefront in offering the latest in Orthopedic treatments and Orthopedic surgical advancements in India on par with the best centres in the world.
+            
+            Our Hospital offers key & best orthopedic surgeries and procedures in India. We perform bone and joint replacement surgeries which include the most current Arthroscopic and Reconstructive techniques.</p>
+    </section>
+
+    <!-- Add more content about your hospital here -->
+
+    <footer>
+        <p style="bottom: 10px;">&copy; 2023 Hospital Management</p>
+    </footer>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   
+
+      
+    
+       
+    </script>
+</body>
+</html>
