@@ -4,42 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hospital Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="register.html">Register</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="appointments.html">Appointments</a></li>
-            </ul>
-        </nav>
-    </header>
+<body style="background-color: aliceblue;">
+  <div class="container-fluid  p-0">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md p-2 ">
+      <a class="navbar-brand ps-3">
+        <h1>Med-X</h1>
 
-    <section class="login">
-        <h1>Login</h1>
-        <p>Log in as a Doctor or a Patient:</p>
-        
-        <form>
-            <label for="role">Role:</label>
-            <select id="role" name="role">
-                <option value="doctor">Doctor</option>
-                <option value="patient">Patient</option>
-            </select>
+      </a>
+      <button class="navbar-toggler ms-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
-        </form>
-    </section>
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item p-3">
+            <a href="#" class="jai">
+              <h5>Home</h5>
+            </a>
+          </li>
+
+          <li class="nav-item p-3">
+            <a href="#about">
+              <h5>About</h5>
+            </a>
+          </li>
+
+          <li class="nav-item p-3 ">
+            <a href="register.html">
+              <h5>Register</h5>
+            </a>
+          </li>
+
+          <li class="nav-item p-3">
+            <a href="contact.html">
+              <h5>Contact us </h5>
+            </a>
+          </li>
+
+
+        </ul>
+        <ul class="navbar-nav ms-auto">
+       
+
+        </ul>
+      </div>
+  </div>
+
+  <div class="login">
+    <div class="login-triangle"></div>
+    
+    <h2 class="login-header">Log in</h2>
+  
+    <form class="login-container">
+      <p><input type="email" placeholder="Email"></p>
+      <p><input type="password" placeholder="Password"></p>
+      <p><input type="submit" value="Log in"></p>
+    </form>
+  </div>
 
     <!-- Add more login-related functionality as needed -->
 
@@ -48,5 +76,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
-</html>
+</html
