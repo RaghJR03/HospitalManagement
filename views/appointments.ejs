@@ -7,53 +7,62 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./appointment.css">
 </head>
-<body style="background-color: aliceblue;">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contact">Contact Us</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/appointments">Appointments</a></li><!-- Added Appointments page link -->
-            </ul>
-        </nav>
-    </header>
+<body style="background-color: aliceblue;"> 
 
+
+  <nav>
+    <ul>
+      
+      
+      
+      <li><a href="/?pid=<%= pid %>&email=<%= email %>&password=<%= password %>&sname=<%= sname %>&log=1">Back to Home</a></li>
+    </ul>
+  </nav>
+  
+  <h1>Welcome to the Appointments Page</h1>
+  
+
+  <h2>Show My Appointments</h2>
+  <ul >
     
-    <section class="appointments">
-        <h1>Appointments</h1>
-        <p style="font-size: large;">View and manage your appointments below:</p>
-        
-        <!-- Table to display appointment details -->
-        <table class="appointment-table">
-            <thead>
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Appointment ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Gender</th>
-                    <th>Email</th>
-                    <th>Appointment Date</th>
-                    <th>Current Status</th>
-                    <th>Action</th>
-                    <th>Prescribe</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Add appointment data rows here (if available) -->
-            </tbody>
-        </table>
+  <% if (locals.appointments) { %>
+    <% appointments.forEach(appointment => { %>
+      <li>Doctor: <%= appointment.Dname %>,  <% const dateString = appointment.Date.toDateString(); %>
+        <% const words = dateString.split(' ').slice(0, 3).join(' '); %>
+        <p>Appointment Date: <%= words %></p></li>
+    <% }); %>
 
-        <!-- Add more appointment entries as needed -->
+    <% } else { %>
+     <h2>No appointments yet</h2>
+  <% } %>
 
-    </section>
+  
+   
 
+  </ul>
+  
 
-    <footer>
-        <p>&copy; 2023 Hospital Management</p>
-    </footer>
+  <h2>Book an Appointment</h2>
+  <form action="/book-appointment" method="post">
+    <label for="doctor">Select a Doctor:</label>
+    <select id="doctor" name="doctor">
+      <% doctors.forEach(doctor => { %>
+        <option value="<%= doctor.Did %>"><%= doctor.Dname %></option>
+      <% }); %>
+    </select>
+
+    <label for="appointmentDate">Select Appointment Date:</label>
+    <input type="date" id="appointmentDate" name="appointmentDate" required>
+    
+  
+    
+    
+    <!-- Hidden input field for customer's pid -->
+    <input type="hidden" name="customerPid" value="<%= pid %>">
+    
+    <button type="submit">Book Appointment</button>
+  </form>
+
 
     <script src="script.js"></script>
 </body>

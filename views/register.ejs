@@ -36,6 +36,17 @@
         });
     </script>
     <% } %>
+    <% if (log === '1') { %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: 'User Already exists! Try to login',
+                });
+            });
+        </script>
+        <% } %>
     <% } %>
     <section class="register">
         <h1 >Register</h1>

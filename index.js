@@ -1,4 +1,4 @@
-var con=require("./connection");
+var pool=require("./connection");
 const express=require('express');
 const app=express();
 const port=3000;
@@ -12,10 +12,69 @@ app.use(express.static("public"));
 
 
 
-app.get('/', (req, res) => {
-    res.render('home');
-    });
+app.get("/", (req, res) => {
+  const pid = req.query.pid;
+  const email = req.query.email;
+  const password = req.query.password;
+  const sname = req.query.sname;
 
+  // Now you have the user data and can render the home page with this data
+  res.render("home", { pid: pid, email: email, password: password, sname: sname });
+});
+
+app.post("/register", (req, res) => {
+  const sname = req.body.sname;
+  const email = req.body.email;
+  const pid = parseInt(req.body.pid); // Parsing pid as an integer
+  const password = req.body.password;
+  const cnfpassword = req.body.cnfpassword;
+
+  if (cnfpassword === password) {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error getting connection from pool:', err);
+        return res.status(500).json({ error: 'Database error' });
+      }
+
+      const checkUniqueQuery = "SELECT COUNT(*) AS count FROM Patient WHERE pid = ? OR Email = ?";
+      connection.query(checkUniqueQuery, [pid, email], (queryErr, result) => {
+        if (queryErr) {
+          console.error(queryErr);
+          connection.release();
+          return res.status(500).json({ error: 'Query error' });
+        }
+
+        const uniqueCount = result[0].count;
+        if (uniqueCount > 0) {
+          // PID or email already exists, show an error
+          connection.release();
+          console.log("PID or email already exists");
+          return res.render("register", { log: "1" });
+        } else {``
+          // Insert user data into the database
+          const insertQuery = "INSERT INTO Patient (Name, Email, pid, password) VALUES (?, ?, ?, ?)";
+          connection.query(insertQuery, [sname, email, pid, password], (insertErr) => {
+            connection.release();
+            if (insertErr) {
+              console.error(insertErr);
+              return res.status(500).json({ error: 'Insertion error' });
+            }
+
+            console.log("Successfully registered");
+            res.render("home", { sname: sname, email: email, pid: pid, password: password, log: "1" });
+          });
+        }
+      });
+    });
+  } else {
+    console.log("Password confirmation doesn't match");
+    res.render("register", { log: "0" });
+  }
+});
+
+app.get("/register",(req, res) => {
+  res.render('register');
+  })
     
 app.get('/contact', (req, res) => {
     res.render('contact');
@@ -25,49 +84,149 @@ app.get('/login', (req, res) => {
       res.render('login');
  });
 
- app.post("/login",(req,res)=>{
-   const sname=req.body.sname;
-    const email=req.body.email;
-    const pid=req.body.pid;
-    const password=req.body.password;
-   
-     console.log("sucessfully logged in")
-        res.render("home",{sname:sname,email:email,pid:pid,password:password,log:"1"});
- })
+ app.post("/login", (req, res) => {
+    const sname = req.body.sname;   // Assuming sname is coming from a text input
+    const email = req.body.email;   // Assuming email is coming from a text input
+    const pid = parseInt(req.body.pid); // Parsing pid as an integer
+    const password = req.body.password; // Assuming password is coming from a password input
+  
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error getting connection from pool:', err);
+        return res.status(500).json({ error: 'Database error' });
+      }
+  
+      const sql = "SELECT * FROM Patient WHERE pid = ?";
+      connection.query(sql, [pid], function (error, result) {
+        connection.release();
+  
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: 'Query error' });
+        } else {
+          if (result.length === 0) {
+             res.render("login",{log:"0"});
+          }
+       else
+       {
+            const user = result[0];
+          if (
+            user.Name === sname &&
+            user.pid === pid &&
+            user.Email === email &&
+            user.password === password
+          ) {
+            res.render("home",{sname:sname,email:email,pid:pid,password:password,log:"1"});
+          } else {
+            
+            res.render("login",{log:"0"});
+          }
+       }
+        
+        }
+      });
+    });
+  });
+  
+  
+ 
 
- app.post("/register",(req,res)=>{
-    const sname=req.body.sname;
-    const email=req.body.email;
-    const pid=req.body.pid;
-    const password=req.body.password;
-    const cnfpassword=req.body.cnfpassword;
-    
-    if(password===cnfpassword)
-    {
-        console.log("sucessfully registerd")
-        res.render("home",{sname:sname,email:email,pid:pid,password:password,log:"1"});
-    }
-    else
-    {
-       
-        console.log("your password didnt match")
-        res.render("register",{log:"0"});
-    }
-    
- })
+
+  
  app.get('/logout', (req, res) => {
     res.render('logout');
 });
 
 
- app.get('/appointments', (req, res) => {
-    res.render('appointments');
-    });
 
-    app.get('/register', (req, res) => {
-        res.render('register');
+ 
+app.get("/appointments", (req, res) => {
+  const pid = req.query.pid;
+  const email = req.query.email;
+  const password = req.query.password;
+  const sname = req.query.sname;
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting connection from pool:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    
+    // Fetch doctor data from the database
+    const fetchDoctorsQuery = "SELECT * FROM docter";
+    connection.query(fetchDoctorsQuery, (doctorsQueryErr,doc) => {
+      if (doctorsQueryErr) {
+        console.error(doctorsQueryErr);
+        connection.release();
+        return res.status(500).json({ error: 'Query error' });
+      }
+  
+      
+      const fetchAppointmentsQuery = "select Dname,Date from docter inner join appointment on appointment.did=docter.did where pid=?";
+    
+    connection.query(fetchAppointmentsQuery, [pid], (appointmentsQueryErr, appointments) => {
+      if (appointmentsQueryErr) {
+        console.error(appointmentsQueryErr);
+        connection.release();
+        return res.status(500).json({ error: 'Query error' });
+      }
+
+        
+        connection.release();
+
+        
+        res.render("appointments", {
+          pid: pid,
+          email: email,
+          password: password,
+          sname: sname,
+          doctors: doc,
+          appointments: appointments
         });
+        console.log(appointments)
+      });
+    });
+  });
+});
 
+
+
+  
+
+  app.post("/book-appointment", (req, res) => {
+    const customerPid = req.body.customerPid; // Get customer's pid from the form submission
+    const selectedDoctor = req.body.doctor;
+    const appointmentDate = req.body.appointmentDate;
+    
+   
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error getting connection from pool:', err);
+        return res.status(500).json({ error: 'Database error' });
+      }
+      
+    // Fetch user details from the database based on customer's pid
+    const getUserDetailsQuery = "SELECT * FROM patient WHERE pid = ?";
+   pool.query(getUserDetailsQuery, [customerPid], (fetchErr, userDetails) => {
+      if (fetchErr) {
+        console.error(fetchErr);
+        return res.status(500).json({ error: 'Error fetching user details' });
+      }
+      
+      // Insert the new appointment into the database
+      const insertAppointmentQuery = "INSERT INTO Appointment (pid, did, Date) VALUES (?, ?, ?)";
+    connection.query(insertAppointmentQuery, [customerPid, selectedDoctor, appointmentDate], (insertErr) => {
+      if (insertErr) {
+        console.error(insertErr);
+        return res.status(500).json({ error: 'Insertion error' });
+      }
+        // Redirect back to the appointments page with user details
+        res.redirect("/appointments?pid=" + customerPid + "&email=" + userDetails[0].Email + "&password=" + userDetails[0].password + "&sname=" + userDetails[0].Name );
+      });
+    });
+  });
+});
+     
 
 app.listen(port,()=>{
     console.log(`server running on port ${port}`);

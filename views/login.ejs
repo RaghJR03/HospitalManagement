@@ -5,8 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hospital Management</title>
     <link rel="stylesheet" href="./styles.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body style="background-color: aliceblue;">
+    <% if (locals.log) { %>
+        <% if (log === '0') { %>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: 'Check Your Details and Please try again.',
+                    });
+                });
+            </script>
+            <% } %>
+            <% } %>
     <header>
         <nav>
             <ul>
