@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 app.post("/register", (req, res) => {
   const sname = req.body.sname;
   const email = req.body.email;
-  const pid = parseInt(req.body.pid); // Parsing pid as an integer
+
   const password = req.body.password;
   const cnfpassword = req.body.cnfpassword;
 
@@ -36,8 +36,8 @@ app.post("/register", (req, res) => {
         return res.status(500).json({ error: 'Database error' });
       }
 
-      const checkUniqueQuery = "SELECT COUNT(*) AS count FROM Patient WHERE pid = ? OR Email = ?";
-      connection.query(checkUniqueQuery, [pid, email], (queryErr, result) => {
+      const checkUniqueQuery = "SELECT COUNT(*) AS count FROM Patient WHERE  Email = ?";
+      connection.query(checkUniqueQuery, [email], (queryErr, result) => {
         if (queryErr) {
           console.error(queryErr);
           connection.release();
@@ -46,22 +46,29 @@ app.post("/register", (req, res) => {
 
         const uniqueCount = result[0].count;
         if (uniqueCount > 0) {
-          // PID or email already exists, show an error
+          
           connection.release();
           console.log("PID or email already exists");
           return res.render("register", { log: "1" });
-        } else {``
+        } else {
           // Insert user data into the database
-          const insertQuery = "INSERT INTO Patient (Name, Email, pid, password) VALUES (?, ?, ?, ?)";
-          connection.query(insertQuery, [sname, email, pid, password], (insertErr) => {
-            connection.release();
+          const insertQuery = "INSERT INTO Patient (Name, Email, password) VALUES (?, ?, ?)";
+          connection.query(insertQuery, [sname, email, password], (insertErr) => {
+            
             if (insertErr) {
               console.error(insertErr);
               return res.status(500).json({ error: 'Insertion error' });
             }
-
-            console.log("Successfully registered");
-            res.render("home", { sname: sname, email: email, pid: pid, password: password, log: "1" });
+            const pidquery="Select pid from Patient where Email = ?" 
+            connection.query(pidquery,[email],(err,result)=>{
+            connection.release();
+              if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Insertion error' });
+              }
+             const pid=result[0].pid;
+              res.render("home", { sname: sname, email: email, pid: pid, password: password, log: "1" });
+            })
           });
         }
       });
@@ -87,7 +94,7 @@ app.get('/login', (req, res) => {
  app.post("/login", (req, res) => {
     const sname = req.body.sname;   // Assuming sname is coming from a text input
     const email = req.body.email;   // Assuming email is coming from a text input
-    const pid = parseInt(req.body.pid); // Parsing pid as an integer
+ 
     const password = req.body.password; // Assuming password is coming from a password input
   
     pool.getConnection((err, connection) => {
@@ -96,8 +103,8 @@ app.get('/login', (req, res) => {
         return res.status(500).json({ error: 'Database error' });
       }
   
-      const sql = "SELECT * FROM Patient WHERE pid = ?";
-      connection.query(sql, [pid], function (error, result) {
+      const sql = "SELECT * FROM Patient WHERE email = ?";
+      connection.query(sql, [email], function (error, result) {
         connection.release();
   
         if (error) {
@@ -108,11 +115,11 @@ app.get('/login', (req, res) => {
              res.render("login",{log:"0"});
           }
        else
-       {
+       {   
             const user = result[0];
+            const pid=user.pid;
           if (
             user.Name === sname &&
-            user.pid === pid &&
             user.Email === email &&
             user.password === password
           ) {
@@ -197,7 +204,7 @@ app.get("/appointments", (req, res) => {
     const customerPid = req.body.customerPid; // Get customer's pid from the form submission
     const selectedDoctor = req.body.doctor;
     const appointmentDate = req.body.appointmentDate;
-    
+  
    
     pool.getConnection((err, connection) => {
       if (err) {
@@ -207,7 +214,7 @@ app.get("/appointments", (req, res) => {
       
     // Fetch user details from the database based on customer's pid
     const getUserDetailsQuery = "SELECT * FROM patient WHERE pid = ?";
-   pool.query(getUserDetailsQuery, [customerPid], (fetchErr, userDetails) => {
+   connection.query(getUserDetailsQuery, [customerPid], (fetchErr, userDetails) => {
       if (fetchErr) {
         console.error(fetchErr);
         return res.status(500).json({ error: 'Error fetching user details' });
@@ -227,6 +234,40 @@ app.get("/appointments", (req, res) => {
   });
 });
      
+
+app.post("/cancel",(req,res)=>{
+  const docname=req.body.Dname;
+  const appointmentDate = new Date(req.body.appointmentDate);
+  const customerPid = req.body.pid; 
+ 
+
+
+  pool.getConnection((err,connection)=>{
+    if (err) {
+      console.error('Error getting connection from pool:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    else{
+    const delq="delete from appointment where pid=? and Date=? and did=(select did from docter where Dname=?)";
+    connection.query(delq,[customerPid,appointmentDate,docname],(insertErr,del)=>{
+      if (insertErr) {
+        console.error(insertErr);
+        return res.status(500).json({ error: 'Insertion error' });
+      }
+    })
+    const getUserDetailsQuery = "SELECT * FROM patient WHERE pid = ?";
+   connection.query(getUserDetailsQuery, [customerPid], (fetchErr, userDetails) => {
+      if (fetchErr) {
+        console.error(fetchErr);
+        return res.status(500).json({ error: 'Error fetching user details' });
+      }
+      connection.release();
+      res.redirect("/appointments?pid=" + customerPid + "&email=" + userDetails[0].Email + "&password=" + userDetails[0].password + "&sname=" + userDetails[0].Name );
+
+    });
+  }
+});
+});
 
 app.listen(port,()=>{
     console.log(`server running on port ${port}`);

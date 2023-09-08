@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&family=Unbounded:wght@800;900&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+   <link
+         href="https://fonts.googleapis.com/css2?family=Montserrat&family=Ubuntu&display=swap"
+         rel="stylesheet"/>
+   
+       <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+       <link
+         rel="stylesheet"
+         href="path/to/font-awesome/css/font-awesome.min.css" />
+       <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0-beta1/css/bootstrap.min.css"/>
+       <link
+         rel="stylesheet"
+         href="path/to/font-awesome/css/font-awesome.min.css"/>
+   
+       <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+       <script
+         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+         crossorigin="anonymous"></script>
+       <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+         crossorigin="anonymous" ></script>
+       <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+         crossorigin="anonymous"/>
+       <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+         crossorigin="anonymous" ></script>
+   
+  
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+  
+  <!-- SweetAlert2 JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+  
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hospital Management</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./login.css">
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -22,19 +77,20 @@
             </script>
             <% } %>
             <% } %>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/contact">Contact Us</a></li>
-                <li><a href="/register">Register</a></li>
-                
-                <li><a href="/appointments">Appointments</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section class="login">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <h2><a class="navbar-brand text-white m-5 fs-1">Med-X</a></h2>
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link text-white fs-5" href="/">Home</a>
+                  </li>
+                
+                  <li class="nav-item">
+                    <a class="nav-link text-white fs-5" href="/Register">Register</a>
+                  </li>
+                </ul>
+                </nav>
+    <!-- <section class="login">
         <h1>Login</h1>
         <p style="font-size: large;">Log in as a Doctor or a Patient:</p>
         
@@ -48,11 +104,6 @@
 
         <input type="text" id="email" name="sname" required>
     </br>
-
-    <label for="email">Enter Patient id:</label>
-    </br>
-
-    <input type="number" id="pid" name="pid" required>
 </br>
     <label for="email">Email:</label>
 </br>
@@ -65,13 +116,29 @@
 
             <button type="submit">Login</button>
         </form>
-    </section>
+    </section> -->
 
    
 
-    <footer>
-        <p>&copy; 2023 Hospital Management</p>
-    </footer>
+    <div class="container">
+        <div class="left">
+          <div class="header">
+            <h2 class="animation a1">Welcome Back</h2>
+            <h4 class="animation a2">Log in to your account using email and password</h4>
+          </div>
+          <form class="form" method="post" action="/login">
+            <input type="text" class="form-field animation a3" placeholder="Name" id="name" name="sname" required>
+            <input type="email" class="form-field animation a3" placeholder="Email Address" id="email" name="email" required>
+            <input type="password" class="form-field animation a4" placeholder="Password" id="password" name="password" required>
+          
+            <button type="submit" class="animation a6">LOGIN</button>
+          </form>
+        </div>
+        <div class="right"></div>
+      </div>
+
+
+
 
     <script src="script.js"></script>
 </body>
